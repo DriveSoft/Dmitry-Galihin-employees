@@ -19,3 +19,26 @@ body {
   text-align: center;
   margin-top: 100px;
 }
+
+.winner {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.dataGrid {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
