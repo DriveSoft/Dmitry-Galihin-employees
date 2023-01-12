@@ -72,8 +72,6 @@ function App() {
 					const projectId = parseInt(data[i1][1]);
 					const days = getIntersectionDate(startDate1, startEnd1, startDate2, startEnd2);
 
-					console.log('days', days)
-
 					if (days > 0) {
 						// to prevent inverted pairs
 						let empKey;
@@ -116,35 +114,32 @@ function App() {
 		dateStart2s = dateStart2s.replace(/\s/g, '');
 		dateEnd2s = dateEnd2s.replace(/\s/g, '');
 
-		console.log('dates', dateStart1s, dateEnd1s, dateStart2s, dateEnd2s)
-
 		if (dateStart1s.toLowerCase() === 'null') {
-			dateStart1 = new Date(); 	
+			dateStart1 = new Date().getTime(); 	
 		} else {
-			dateStart1 = new Date(dateStart1s)	
+			dateStart1 = Date.parse(dateStart1s)	
 		}
 
 		if (dateEnd1s.toLowerCase() === 'null') {
-			dateEnd1 = new Date(); 	
+			dateEnd1 = new Date().getTime(); 	
 		} else {
-			dateEnd1 = new Date(dateEnd1s);	
-		}	
-		console.log('dateEnd1', dateEnd1)	
+			dateEnd1 = Date.parse(dateEnd1s);	
+		}		
 
 		if (dateStart2s.toLowerCase() === 'null') {
-			dateStart2 = new Date(); 	
+			dateStart2 = new Date().getTime(); 	
 		} else {
-			dateStart2 = new Date(dateStart2s);	
+			dateStart2 = Date.parse(dateStart2s);	
 		}	
 		
 		if (dateEnd2s.toLowerCase() === 'null') {
-			dateEnd2 = new Date(); 	
+			dateEnd2 = new Date().getTime(); 	
 		} else {
-			dateEnd2 = new Date(dateEnd2s);	
+			dateEnd2 = Date.parse(dateEnd2s);	
 		}			
 
-		if (dateStart1.getTime() < dateEnd2.getTime() && dateEnd1.getTime() > dateStart2.getTime()) {			
-			return Math.floor(((Math.min(dateEnd1.getTime(), dateEnd2.getTime())) - (Math.max(dateStart2.getTime(), dateStart1.getTime()))) / (24*60*60*1000)) + 1;
+		if (dateStart1 < dateEnd2 && dateEnd1 > dateStart2) {			
+			return Math.floor(((Math.min(dateEnd1, dateEnd2)) - (Math.max(dateStart2, dateStart1))) / (24*60*60*1000)) + 1;
 		} else {
 			return 0;
 		}
