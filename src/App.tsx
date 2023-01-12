@@ -73,13 +73,8 @@ function App() {
 					const days = getIntersectionDate(startDate1, startEnd1, startDate2, startEnd2);
 
 					if (days > 0) {
-						// to prevent inverted pairs
-						let empKey;
-						if (emp1 < emp2) {
-							empKey = `${emp1}|${emp2}|${projectId}`;
-						} else {
-							empKey = `${emp2}|${emp1}|${projectId}`;
-						}
+						// to prevent inverted pairs					
+						let empKey = (emp1 < emp2) ? `${emp1}|${emp2}|${projectId}` : `${emp2}|${emp1}|${projectId}`; 
 
 						let prevData = mapEmpsPairs[empKey];
 						let prevDays = 0; 
@@ -104,39 +99,10 @@ function App() {
 
 
 	function getIntersectionDate(dateStart1s: string, dateEnd1s: string, dateStart2s: string, dateEnd2s: string): number {
-		let dateStart1;
-		let dateEnd1;
-		let dateStart2;
-		let dateEnd2;
-
-		dateStart1s = dateStart1s.replace(/\s/g, '');
-		dateEnd1s = dateEnd1s.replace(/\s/g, '');
-		dateStart2s = dateStart2s.replace(/\s/g, '');
-		dateEnd2s = dateEnd2s.replace(/\s/g, '');
-
-		if (dateStart1s.toLowerCase() === 'null') {
-			dateStart1 = new Date().getTime(); 	
-		} else {
-			dateStart1 = Date.parse(dateStart1s)	
-		}
-
-		if (dateEnd1s.toLowerCase() === 'null') {
-			dateEnd1 = new Date().getTime(); 	
-		} else {
-			dateEnd1 = Date.parse(dateEnd1s);	
-		}		
-
-		if (dateStart2s.toLowerCase() === 'null') {
-			dateStart2 = new Date().getTime(); 	
-		} else {
-			dateStart2 = Date.parse(dateStart2s);	
-		}	
-		
-		if (dateEnd2s.toLowerCase() === 'null') {
-			dateEnd2 = new Date().getTime(); 	
-		} else {
-			dateEnd2 = Date.parse(dateEnd2s);	
-		}			
+		let dateStart1 = (dateStart1s.toLowerCase().trim() === 'null') ? new Date().getTime() : Date.parse(dateStart1s);
+		let dateEnd1 = (dateEnd1s.toLowerCase().trim() === 'null') ? new Date().getTime() : Date.parse(dateEnd1s);
+		let dateStart2 = (dateStart2s.toLowerCase().trim() === 'null') ? new Date().getTime() : Date.parse(dateStart2s);
+		let dateEnd2 = (dateEnd2s.toLowerCase().trim() === 'null') ? new Date().getTime() : Date.parse(dateEnd2s);			
 
 		if (dateStart1 < dateEnd2 && dateEnd1 > dateStart2) {			
 			return Math.floor(((Math.min(dateEnd1, dateEnd2)) - (Math.max(dateStart2, dateStart1))) / (24*60*60*1000)) + 1;
@@ -145,7 +111,6 @@ function App() {
 		}
 	}
 	
-
 	return (
 		<div className="app">
 			<div className="fileSection">
@@ -183,13 +148,11 @@ function App() {
 
 						{Object.keys(dataResult).map((key, index) => {
 							return (
-								<tr key={key}>
-								
+								<tr key={key}>								
 									<td>{dataResult[key].empID1}</td>
 									<td>{dataResult[key].empID2}</td>
 									<td>{dataResult[key].projectID}</td>
 									<td>{dataResult[key].days}</td>
-
 								</tr>
 							);
 						})}
